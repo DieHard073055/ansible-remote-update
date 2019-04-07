@@ -9,7 +9,7 @@
 
 - hosts: localhost
   tasks:
-  - name: doing update
+  - name: performing updates
     file:
       path: "/home/{{ansible_user}}/ansible_executed"
   
