@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# source the virtual environment with ansible installed
+source /home/{{ansible_user}}/ansible_venv/bin/activate
+
+# pull the ansible repo and run site.yml
+ansible-pull -U https://github.com/DieHard073055/ansible-remote-update site.yml

@@ -1,7 +1,12 @@
 ---
+- name: add the script to which will be run as the crontab
+  template:
+    src: cron_job.j2
+    dest: "/home/{{ansible_user}}/ansible_auto_updates/cron_job.sh"
+    
 - name: configure crontab to pull the current repo daily
   cron:
     name: make sure the current system is upto date
     hour: "*"
-    minute: "*"
-    job: "echo 'ansible crontab was run' >> /home/{{ansible_user}}/crontab_exec"
+    minute: "*/2"
+    job: "/home/{{ansible_user}}/ansible_auto_updates/cron_job.sh"
