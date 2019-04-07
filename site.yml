@@ -17,5 +17,5 @@
       state: touch
   
   - name: append the date time to the auto update log
-    shell: "echo $( date +%s ) >> /home/{{ansible_user}}/ansible_executed"
+    shell: "echo ansible update start $( date +%s ) >> /home/{{ansible_user}}/ansible_executed"
     
