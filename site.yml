@@ -1,33 +1,18 @@
-- hosts: target
+---
+- hosts: targets
   vars:
-    python_version: "Python-3.7.1"
+    provision: no
   tasks:
-    - name: make sure yum is upto date and development tools are installed
-      yum:
-        name: "@Development tools"
-        state: present
-        update_cache: yes
-      become: yes
-        
-    - name: create a temp directory to download python
-      tempfile:
-        state: directory
-        suffix: python-download
-      register: python_dir
-      
-    - name: print the temporary directory
-      debug:
-        msg: "{{python_dir['path']}}"
-        
-    - name: make sure python source code is available on the target machine
-      unarchive:
-        src: "https://www.python.org/ftp/python/3.7.1/{{python_version}}.tgz"
-        dest: "{{python_dir['path']}}"
-        remote_src: yes
+  - name: run the common role against all the targets
+    include_role:
+      name: common
+
+- hosts: localhost
+  tasks:
+  - name: doing update
+    file:
+      path: "/home/{{ansible_user}}/ansible_executed"
+  
+  - name:
+    command: "echo $( date +%s ) >> /home/{{ansible_user}}/ansible_executed"
     
-    - name: configure make and install python
-      shell: "./configure --enable-optimizations && make && make altinstall"
-      args:
-        chdir: "{{python_dir['path']}}/{{python_version}}"
-      become: yes
-      
