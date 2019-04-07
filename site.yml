@@ -1,7 +1,7 @@
 ---
 - hosts: targets
   vars:
-    provision: yes
+    provision: no
   tasks:
   - name: run the common role against all the targets
     include_role:
