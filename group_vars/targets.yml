@@ -1,0 +1,4 @@
+---
+# python version which will be installed on the target machines
+python_version: "3.7.1"
+python_version_short: "3.7"
