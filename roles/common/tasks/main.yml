@@ -1,0 +1,13 @@
+---
+# make sure we have python and ansible installed in the machines in the target group.
+- name: install python from source
+  import_tasks: 00_install_python.yml
+  when: provision
+
+- name: install ansible
+  import_tasks: 01_install_ansible.yml
+  when: provision
+
+- name: configure crontab
+  import_tasks: 02_configure_crontab.yml
+ 

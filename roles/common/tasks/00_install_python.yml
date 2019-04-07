@@ -1,0 +1,39 @@
+- name: make sure yum is upto date and development tools are installed
+  yum:
+    name: "@Development tools"
+    state: present
+    update_cache: yes
+  become: yes
+
+- name: check if our required version of python is installed
+  stat:
+    path: "/usr/local/bin/python{{python_version_short}}"
+  register: python_installed
+
+- name: create a temp directory to download python
+  tempfile:
+    state: directory
+    suffix: python-download
+  register: python_dir
+  when: not python_installed.stat.exists
+  
+- name: print the temporary directory
+  debug:
+    msg: "{{python_dir['path']}}"
+  when: not python_installed.stat.exists
+
+    
+- name: make sure python source code is available on the target machine
+  unarchive:
+    src: "https://www.python.org/ftp/python/{{python_version}}/Python-{{python_version}}.tgz"
+    dest: "{{python_dir['path']}}"
+    remote_src: yes
+  when: not python_installed.stat.exists
+
+
+- name: configure make and install python
+  shell: "./configure --enable-optimizations && make && make altinstall"
+  args:
+    chdir: "{{python_dir['path']}}/Python-{{python_version}}"
+  become: yes
+  when: not python_installed.stat.exists

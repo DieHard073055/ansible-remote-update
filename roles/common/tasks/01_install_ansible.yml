@@ -1,0 +1,14 @@
+---
+- name: create virtualenv directory for ansible
+  file:
+    path: "/home/{{ansible_user}}/ansible_venv"
+    state: directory
+    mode: 0755
+    
+- name: install ansible with the installed python version
+  pip:
+    name: ansible
+    virtualenv: "/home/{{ansible_user}}/ansible_venv"
+    virtualenv_python: "/usr/local/bin/python{{python_version_short}}"
+    
+    
