@@ -1,4 +1,11 @@
 ---
+- name: create the directory to store the cron job script
+    file:
+      path: "/home/{{ansible_user}}/ansible_auto_updates"
+      owner: "{{ansible_user}}"
+      mode: 0755
+      state: directory
+      
 - name: add the script to which will be run as the crontab
   template:
     src: cron_job.j2
